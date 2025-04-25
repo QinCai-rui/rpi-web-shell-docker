@@ -2,10 +2,6 @@
 Description=Run web-shell-docker-monitor.service every 10 seconds
 
 [Timer]
-# Replace these with your own user and group
-User=qincai
-Group=qincai
-
 OnCalendar=*:*:0/10
 Unit=web-shell-docker-monitor.service
 
