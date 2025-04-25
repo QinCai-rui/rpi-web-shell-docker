@@ -1,0 +1,38 @@
+services:
+  fedora41:
+    build: .
+    container_name: web-shell-systemd
+    stdin_open: true
+    tty: true
+    restart: always
+#    network_mode: "none"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+      - /run/systemd/system:/run/systemd/system:ro
+      - ./resolv.conf:/etc/resolv.conf:ro
+    tmpfs:
+      - /tmp
+      - /run
+      - /run/lock
+    environment:
+      - "container=docker"
+    cap_add:
+      - NET_ADMIN
+#    cap_drop:
+#      - ALL
+    ports:
+      - 5002:5001
+    deploy:
+      resources:
+        limits:
+          memory: 0.5g
+          cpus: '0.50'
+          pids: 500
+    entrypoint:
+      - "/bin/bash"
+      - "-c"
+      - |
+        tc qdisc add dev eth0 root handle 1: htb default 10 &&
+        tc class add dev eth0 parent 1: classid 1:10 htb rate 4mbit ceil 4mbit &&
+        tc filter add dev eth0 parent 1: protocol ip prio 50 u32 match ip src 0.0.0.0/0 police rate 4mbit burst 10k drop flowid 1:10 &&
+        exec /sbin/init
