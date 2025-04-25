@@ -1,0 +1,14 @@
+[Unit]
+Description=Monitor rpi-shell.service inside Docker
+After=docker.service
+
+[Service]
+# Replace these with your own user and group
+User=qincai
+Group=qincai
+
+# Replace this with your own monitor.sh path
+ExecStart=/home/qincai/docker/linux/web-shell-fedora/systemd/monitor.sh
+
+[Install]
+WantedBy=multi-user.target
