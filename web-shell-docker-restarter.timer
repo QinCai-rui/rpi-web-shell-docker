@@ -1,5 +1,5 @@
 [Unit]
-Description=Run web-shell-docker-restarter.service every 600 seconds
+Description=Run web-shell-docker-restarter.service every 10 minutes
 
 [Timer]
 OnUnitActiveSec=600
