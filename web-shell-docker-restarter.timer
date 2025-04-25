@@ -2,10 +2,6 @@
 Description=Run web-shell-docker-restarter.service every 600 seconds
 
 [Timer]
-# Replace these with your own user and group
-User=qincai
-Group=qincai
-
 OnCalendar=*:*:0/600
 Unit=web-shell-docker-restarter.service
 
