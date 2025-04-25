@@ -2,7 +2,7 @@
 Description=Run web-shell-docker-restarter.service every 600 seconds
 
 [Timer]
-OnCalendar=*:0/10
+OnUnitActiveSec=600
 Unit=web-shell-docker-restarter.service
 
 [Install]

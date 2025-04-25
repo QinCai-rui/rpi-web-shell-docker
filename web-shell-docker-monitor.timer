@@ -2,7 +2,8 @@
 Description=Run web-shell-docker-monitor.service every 10 seconds
 
 [Timer]
-OnCalendar=*:*:0/10
+#OnCalendar=*:*:0/10
+OnUnitActiveSec=10
 Unit=web-shell-docker-monitor.service
 
 [Install]
