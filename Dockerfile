@@ -51,7 +51,7 @@ RUN echo "[Manager]" > /etc/systemd/system.conf.d/00-container.conf && \
 STOPSIGNAL SIGRTMIN+3
 
 # Install RPi Web Shell
-RUN dnf -y install git python3 python3-venv openssl
+RUN dnf -y install git python3 python3-virtualenv openssl
 RUN curl -sSL https://raw.githubusercontent.com/QinCai-rui/rpi-web-shell/refs/heads/main/universal-installer.bash -O && \
     chmod +x universal-installer.bash && \
     bash universal-installer.bash --api=$SHELL_API_KEY --port=5001 --method=1 --assume-yes
