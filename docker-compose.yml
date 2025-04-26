@@ -16,6 +16,7 @@ services:
       - /run/lock
     environment:
       - "container=docker"
+      - "SHELL_API_KEY=${SHELL_API_KEY}"
     cap_add:
       - NET_ADMIN
 #    cap_drop:
