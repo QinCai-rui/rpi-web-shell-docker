@@ -3,19 +3,12 @@ FROM fedora:41
 ENV container=docker
 
 ##################################
-# REPLACE WITH YOUR OWN API KEY!!
-
-ENV SHELL_API_KEY=random-api-key
-
+#
+# API key will be set via environment variable in docker-compose.yml
+#
 ##################################
 
 # Ignore weak dependencies
-#RUN sed -i '/^ \
-#
-#\[main\] \
-#
-#$/a install_weak_deps=false' /etc/dnf/dnf.conf
-
 RUN echo "install_weak_deps=false" >> /etc/dnf/dnf.conf
 
 # Install systemd and necessary packages
@@ -54,7 +47,7 @@ STOPSIGNAL SIGRTMIN+3
 RUN dnf -y install git python3 python3-virtualenv openssl
 RUN curl -sSL https://raw.githubusercontent.com/QinCai-rui/rpi-web-shell/refs/heads/main/universal-installer.bash -O && \
     chmod +x universal-installer.bash && \
-    bash universal-installer.bash --api=$SHELL_API_KEY --port=5001 --method=1 --assume-yes
+    bash universal-installer.bash --api=${SHELL_API_KEY:-random-api-key} --port=5001 --method=1 --assume-yes
 
 RUN rm universal-installer.bash
 
