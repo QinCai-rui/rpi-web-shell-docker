@@ -1,8 +1,8 @@
 [Unit]
-Description=Run web-shell-docker-monitor.service every 10 seconds
+Description=Run web-shell-docker-monitor.service every 30 seconds
 
 [Timer]
-OnUnitActiveSec=10
+OnUnitActiveSec=30
 Unit=web-shell-docker-monitor.service
 
 [Install]
