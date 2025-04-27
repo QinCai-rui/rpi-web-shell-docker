@@ -11,8 +11,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: qincai-rui/rpi-web-shell-docker:latest
-  
+  IMAGE_NAME: qincai-rui/rpi-web-shell-docker
+
 jobs:
   build:
     strategy:
@@ -59,7 +59,7 @@ jobs:
           tags: |
             type=ref,event=branch,suffix=-${{ matrix.target }}
             type=ref,event=tag,suffix=-${{ matrix.target }}
-            type=raw,value=latest-${{ matrix.target }},enable=${{ github.ref == 'refs/heads/master' }}
+            type=raw,value=latest-${{ matrix.target }},enable=${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
 
       - name: Build and push Docker image
         id: build-and-push
