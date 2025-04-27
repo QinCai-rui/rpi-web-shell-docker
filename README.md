@@ -13,6 +13,6 @@ cd rpi-web-shell-docker
 docker compose up --build 
 ```
 
-, or use the prebuilt image (linux-amd64 and linux-arm64)
+, or use the prebuilt image (linux-amd64 and linux-arm64, see [docker-compose.yml](https://github.com/QinCai-rui/rpi-web-shell-docker/blob/master/docker-compose.yml))
 
 Then go to <http://localhost:5002> on the host machine!
