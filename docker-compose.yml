@@ -1,6 +1,7 @@
 services:
   fedora41:
-    build: .
+#    build: .  # Uncomment if you want to build the image yourself
+    image: ghcr.io/qincai-rui/rpi-web-shell-docker:latest
     container_name: web-shell-systemd
     stdin_open: true
     tty: true
