@@ -6,8 +6,14 @@ on:
   push:
     branches: [ "master" ]
     tags: [ 'v*.*.*' ]
+    paths-ignore:
+      - '**.md'  # Ignore readme changes
+      - '**.yml'
   pull_request:
     branches: [ "master" ]
+    paths-ignore:
+      - '**.md'  # Ignore readme changes
+      - '**.yml'
   workflow_dispatch:
     inputs:
       reason:
