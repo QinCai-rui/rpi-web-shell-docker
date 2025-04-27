@@ -1,0 +1,42 @@
+name: Check for Updates
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'  # Runs every 2 hours
+
+jobs:
+  check:
+    runs-on: self-hosted
+    steps:
+      - name: Check latest commit in rpi-web-shell
+        id: check
+        run: |
+          # Get latest commit hash from the main repository
+          LATEST_COMMIT=$(curl -s https://api.github.com/repos/QinCai-rui/rpi-web-shell/commits/master | jq -r .sha)
+          echo "Latest commit in rpi-web-shell: $LATEST_COMMIT"
+          
+          # Create or read stored commit hash file
+          mkdir -p ./commit-store
+          STORED_COMMIT=""
+          if curl -s -f -o ./commit-store/last_commit.txt https://raw.githubusercontent.com/QinCai-rui/rpi-web-shell-docker/master/.github/commit-store/last_commit.txt; then
+            STORED_COMMIT=$(cat ./commit-store/last_commit.txt)
+          fi
+          
+          # Compare and trigger if different
+          if [ "$LATEST_COMMIT" != "$STORED_COMMIT" ]; then
+            echo "New commit detected! Triggering build workflow."
+            echo "$LATEST_COMMIT" > ./commit-store/last_commit.txt
+            echo "update_detected=true" >> $GITHUB_OUTPUT
+          else
+            echo "No new commits detected."
+            echo "update_detected=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Trigger Docker build
+        if: steps.check.outputs.update_detected == 'true'
+        uses: benc-uk/workflow-dispatch@v1
+        with:
+          workflow: Docker
+          ref: master
+          inputs: '{"reason":"Auto-triggered due to update in rpi-web-shell"}'
+          token: ${{ secrets.GITHUB_TOKEN }}
