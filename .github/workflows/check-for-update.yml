@@ -18,7 +18,7 @@ jobs:
         id: check
         run: |
           # Get latest commit hash from the main repository
-          LATEST_COMMIT=$(curl -s https://api.github.com/repos/QinCai-rui/rpi-web-shell/commits/master | jq -r .sha)
+          LATEST_COMMIT=$(curl -s https://api.github.com/repos/QinCai-rui/rpi-web-shell/commits/main | jq -r .sha)
           echo "Latest commit in rpi-web-shell: $LATEST_COMMIT"
           
           # Create or read stored commit hash file
