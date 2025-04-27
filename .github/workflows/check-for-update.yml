@@ -2,7 +2,7 @@ name: Check for Updates
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Runs every 1 hour
+    - cron: '*/5 * * * *'  # Runs every 5 minutes
   workflow_dispatch:
     inputs:
       reason:
@@ -40,9 +40,9 @@ jobs:
       
       - name: Trigger Docker build
         if: steps.check.outputs.update_detected == 'true'
-        uses: benc-uk/workflow-dispatch@v1
-        with:
-          workflow: Docker
-          ref: master
-          inputs: '{"reason":"Auto-triggered due to update in rpi-web-shell"}'
-          token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
+            https://api.github.com/repos/QinCai-rui/rpi-web-shell-docker/actions/workflows/docker-publish.yml/dispatches \
+            -d '{"ref":"master", "inputs":{"reason":"Auto-triggered due to update in rpi-web-shell"}}'
