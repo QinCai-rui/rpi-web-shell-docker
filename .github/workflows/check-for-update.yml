@@ -2,7 +2,7 @@ name: Check for Updates
 
 on:
   schedule:
-    - cron: '0 */1 * * *'  # Runs every 1 hour
+    - cron: '*/5 * * * *'  # Runs every 1 hour
 
 jobs:
   check:
