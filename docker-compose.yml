@@ -37,4 +37,4 @@ services:
         tc qdisc add dev eth0 root handle 1: htb default 10 &&
         tc class add dev eth0 parent 1: classid 1:10 htb rate 4mbit ceil 4mbit &&
         tc filter add dev eth0 parent 1: protocol ip prio 50 u32 match ip src 0.0.0.0/0 police rate 4mbit burst 10k drop flowid 1:10 &&
-        exec /sbin/init
+        source ~/.rpi-web-shell/venv/bin/activate && python ~/.rpi-web-shell/shell_server.py
