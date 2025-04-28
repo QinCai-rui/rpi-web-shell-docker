@@ -77,6 +77,7 @@ jobs:
 
       # Build and push Docker image
       - name: Build and push
+        id: build-and-push
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -94,8 +95,15 @@ jobs:
 
       # Sign the published Docker image
       - name: Sign the published Docker image
-        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' && steps.build-and-push.outputs.digest != '' }}
         env:
           TAGS: ${{ steps.meta.outputs.tags }}
           DIGEST: ${{ steps.build-and-push.outputs.digest }}
-        run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
+        run: |
+          echo "Digest: ${DIGEST}"
+          echo "Tags: ${TAGS}"
+          if [ -n "${DIGEST}" ]; then
+            echo "${TAGS}" | xargs -I {} cosign sign --yes "{}@${DIGEST}"
+          else
+            echo "Digest is empty, skipping signing"
+          fi
