@@ -8,7 +8,7 @@ User=qincai
 Group=qincai
 
 # Replace this with your own monitor.sh path
-ExecStart=/home/qincai/docker/linux/web-shell-fedora/systemd/monitor.sh
+ExecStart=/home/qincai/docker/web-shell-fedora/monitor.sh
 
 [Install]
 WantedBy=multi-user.target
